@@ -14,10 +14,10 @@ export default class Calendar extends Component {
         console.log(this.state.currentDate.getDate());
 
         this.changeNextMonth = (date) => {
-            this.setState({ currentDate: new Date(date.getFullYear(), date.getMonth() + 1, date.getDay()) });
+            this.setState({ currentDate: new Date(date.getFullYear(), date.getMonth() + 1, this.state.currentDate.getDate()) });
         }
         this.changePastMonth = (date) => {
-            this.setState({ currentDate: new Date(date.getFullYear(), date.getMonth() - 1, date.getDay()) });
+            this.setState({ currentDate: new Date(date.getFullYear(), date.getMonth() - 1, this.state.currentDate.getDate()) });
         }
     }
     render() {
@@ -26,7 +26,8 @@ export default class Calendar extends Component {
                 <div className="calendar-header flex flex-col items-center p-4">
                     <h2 className='text-3xl font-bold cursor-pointer' >{this.months[this.state.currentDate.getMonth()]} {this.state.currentDate.getFullYear()}
                     </h2>
-                    <button onClick={() => this.changeNextMonth(this.state.currentDate)} >Hola</button>
+                    <button onClick={() => this.changeNextMonth(this.state.currentDate)} >Adelante</button>
+                    <button onClick={() => this.changePastMonth(this.state.currentDate)} >Atras</button>
                 </div>
                 <div className="w-full flex-grow flex flex-col">
                     <div className="flex items-center justify-around">

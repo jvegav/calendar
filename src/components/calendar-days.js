@@ -18,10 +18,10 @@ function CalendarDays({ currentDate, ...props }) {
             date: (new Date(firstDayOfMonth)),
             month: firstDayOfMonth.getMonth(),
             number: firstDayOfMonth.getDate(),
-            selected: (firstDayOfMonth.toDateString() === currentDate.toDateString()),
+            selected: (firstDayOfMonth.getDate() === currentDate.getDate()),
             year: firstDayOfMonth.getFullYear()
         }
-        console.log(calendarDay.currentMonth)
+        console.log("Date: " + calendarDay.date + " Selected: " + calendarDay.selected + "primer" + firstDayOfMonth.getDate() + "segundo" + currentDate.getDate());
 
 
         currentDays.push(calendarDay);
@@ -34,7 +34,7 @@ function CalendarDays({ currentDate, ...props }) {
                     return (
                         <div key={index} className={"calendar-day" + (day.currentMonth ? " current" : "") + (day.selected ? " selected" : "") + " w-full h-16 relative border cursor-pointer"}
                         >
-                            <p className={"absolute right-2 " + (day.selected ? "text-red-600 font-bold" : "") + (day.currentMonth ? "text-black font-bold" : "text-gray-600 font-bold")}  >{day.number} </p>
+                            <p className={"absolute right-2 " + (day.selected ? "text-red-600 font-bold" : "") + (day.currentMonth ? "text-black font-bold" : "text-gray-500 font-bold")}  >{day.number} </p>
                         </div>
                     )
                 })
