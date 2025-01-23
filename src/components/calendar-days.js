@@ -1,4 +1,9 @@
-function CalendarDays({ currentDate, ...props }) {
+import React, { useState } from 'react';
+import EventCalendar from './event';
+
+function CalendarDays({ currentDate, events, ...props }) {
+    const [selectedDay, setSelectedDay] = useState(null);
+
     let firstDayOfMonth = new Date(currentDate.getFullYear(), currentDate.getMonth(), 1);
     let weekdayOfFirstDay = firstDayOfMonth.getDay();
 
@@ -21,8 +26,6 @@ function CalendarDays({ currentDate, ...props }) {
             selected: (firstDayOfMonth.getDate() === currentDate.getDate()),
             year: firstDayOfMonth.getFullYear()
         }
-        console.log("Date: " + calendarDay.date + " Selected: " + calendarDay.selected + "primer" + firstDayOfMonth.getDate() + "segundo" + currentDate.getDate());
-
 
         currentDays.push(calendarDay);
     }
@@ -31,14 +34,23 @@ function CalendarDays({ currentDate, ...props }) {
         <div className="grid grid-cols-7 w-full">
             {
                 currentDays.map((day, index) => {
+                    const dayKey = `${day.year}-${String(day.month + 1).padStart(2, '0')}-${String(day.number).padStart(2, '0')}`;
+                    const dayEvents = events[dayKey] || [];
+
                     return (
-                        <div key={index} className={"calendar-day" + (day.currentMonth ? " current" : "") + (day.selected ? " selected" : "") + " w-full h-16 relative border cursor-pointer"}
-                        >
-                            <p className={"absolute right-2 " + (day.selected ? "text-red-600 font-bold" : "") + (day.currentMonth ? "text-black font-bold" : "text-gray-500 font-bold")}  >{day.number} </p>
+                        <div key={index} className={"calendar-day cursor-pointer" + (day.currentMonth ? " current" : "") + (day.selected ? " selected" : "") + " w-full h-16 relative border"}
+                            onClick={() => setSelectedDay(day)}>
+                            <p className={"absolute right-2 " + (day.selected ? "text-red-600 font-bold" : "text-black")}>{day.number}</p>
+                            {
+                                dayEvents.map((event, index) => (
+                                    <p key={index} className='text-xs p-1'>{event}</p>
+                                ))
+                            }
                         </div>
                     )
                 })
             }
+            {selectedDay && <EventCalendar day={selectedDay} events={events[selectedDay.date.toISOString().split('T')[0]] || []} />}
         </div>
     )
 }
