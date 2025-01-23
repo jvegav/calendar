@@ -31,19 +31,19 @@ function CalendarDays({ currentDate, events, ...props }) {
     }
 
     return (
-        <div className="grid grid-cols-7 w-full ">
+        <div className="grid grid-cols-7 w-full h-full">
             {
                 currentDays.map((day, index) => {
                     const dayKey = `${day.year}-${String(day.month + 1).padStart(2, '0')}-${String(day.number).padStart(2, '0')}`;
                     const dayEvents = events[dayKey] || [];
 
                     return (
-                        <div key={index} className={"calendar-day cursor-pointer" + (day.currentMonth ? " current" : "") + (day.selected ? " selected" : "") + " w-full h-16 relative border"}
+                        <div key={index} className={"calendar-day cursor-pointer" + (day.currentMonth ? " current" : "") + (day.selected ? " selected" : "") + " w-full h-16 relative border dark:bg-gray-800 dark:text-white"}
                             onClick={() => setSelectedDay(day)}>
-                            <p className={"absolute right-2 " + (day.selected ? "text-red-600 font-bold" : "text-black")}>{day.number}</p>
+                            <p className={"absolute right-2  " + (day.selected ? "text-red-600 font-bold" : "text-black dark:text-white")} >{day.number}</p>
                             {
                                 dayEvents.map((event, index) => (
-                                    <p key={index} className='text-xs p-1'>{event}</p>
+                                    <p key={index} className='text-xs dark: text-white'>{event}</p>
                                 ))
                             }
                         </div>
