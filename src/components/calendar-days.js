@@ -31,7 +31,7 @@ function CalendarDays({ currentDate, events, ...props }) {
     }
 
     return (
-        <div className="grid grid-cols-7 w-full">
+        <div className="grid grid-cols-7 w-full ">
             {
                 currentDays.map((day, index) => {
                     const dayKey = `${day.year}-${String(day.month + 1).padStart(2, '0')}-${String(day.number).padStart(2, '0')}`;
