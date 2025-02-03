@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import EventCalendar from './event';
 
-function CalendarDays({ currentDate, events, ...props }) {
+function CalendarDays({ currentDate, events, darkMode }) {
     const [selectedDay, setSelectedDay] = useState(null);
 
     let firstDayOfMonth = new Date(currentDate.getFullYear(), currentDate.getMonth(), 1);
@@ -23,7 +23,7 @@ function CalendarDays({ currentDate, events, ...props }) {
             date: (new Date(firstDayOfMonth)),
             month: firstDayOfMonth.getMonth(),
             number: firstDayOfMonth.getDate(),
-            selected: (firstDayOfMonth.getDate() === currentDate.getDate()),
+            selected: (firstDayOfMonth.getDate() === currentDate.getDate()) && (firstDayOfMonth.getMonth() === currentDate.getMonth()),
             year: firstDayOfMonth.getFullYear()
         }
 
@@ -38,12 +38,16 @@ function CalendarDays({ currentDate, events, ...props }) {
                     const dayEvents = events[dayKey] || [];
 
                     return (
-                        <div key={index} className={"calendar-day cursor-pointer" + (day.currentMonth ? " current" : "") + (day.selected ? " selected" : "") + " w-full h-16 relative border dark:bg-gray-800 dark:text-white"}
-                            onClick={() => setSelectedDay(day)}>
-                            <p className={"absolute right-2  " + (day.selected ? "text-red-600 font-bold" : "text-black dark:text-white")} >{day.number}</p>
+                        <div key={index} className={"calendar-day cursor-pointer" + (day.currentMonth ? " current" : "") + (day.selected ? " selected" : "") + ` w-full h-16 relative border ${darkMode ? 'dark:bg-gray-800 text-white' : ''}`}
+                            onClick={() => {
+                                if (!selectedDay) {
+                                    setSelectedDay(day);
+                                }
+                            }}>
+                            <p className={"absolute right-2 " + (day.selected ? "text-red-600 font-bold" : "text-black") + `${darkMode ? 'dark:bg-gray-800 text-white' + (day.selected ? "text-red-600 font-bold" : "text-white") : ''}`}>{day.number}</p>
                             {
                                 dayEvents.map((event, index) => (
-                                    <p key={index} className='text-xs dark: text-white'>{event}</p>
+                                    <p key={index} className='text-xs'>{event}</p>
                                 ))
                             }
                         </div>

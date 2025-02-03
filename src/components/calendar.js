@@ -13,7 +13,7 @@ const Calendar = ({ darkMode }) => {
     const events = {
         '2023-10-01': ['Event 1', 'Event 2'],
         '2023-10-02': ['Event 3'],
-        // Agrega más eventos aquí
+
     };
 
     const changeNextMonth = (date) => {
@@ -24,12 +24,17 @@ const Calendar = ({ darkMode }) => {
     }
 
     return (
-        <div className={`calendar w-full h-full flex flex-col px-20 pt-5 ${darkMode ? 'dark:bg-gray-800 text-white' : ''}`}>
+        <div className={`calendar w-full h-full flex flex-col px-20 pt-5 ${darkMode ? 'dark:bg-gray-800 dark:text-white' : ''}`}>
             <div className="calendar-header flex flex-col items-center p-4">
-                <h2 className='text-3xl font-bold cursor-pointer' >{months[state.currentDate.getMonth()]} {state.currentDate.getFullYear()}
-                </h2>
-                <button onClick={() => changeNextMonth(state.currentDate)} >Adelante</button>
-                <button onClick={() => changePastMonth(state.currentDate)} >Atras</button>
+                <div className='flex items-center justify-between gap-10 py-9'>
+                    <button className={` p-2 py-1 rounded-md ${darkMode ? 'dark: bg-white dark: text-black font-bold' : 'bg-black text-white'}`} onClick={() => changePastMonth(state.currentDate)}>{`<`}</button>
+                    <h2 className='text-3xl font-bold cursor-pointer' >{months[state.currentDate.getMonth()]} {state.currentDate.getFullYear()}
+                    </h2>
+                    <button className={` p-2 py-1 rounded-md ${darkMode ? 'dark: bg-white dark: text-black font-bold' : 'bg-black text-white'}`} onClick={() => changeNextMonth(state.currentDate)}>{`>`}</button>
+
+                </div>
+
+
                 <div className="w-full flex-grow flex flex-col">
                     <div className="flex items-center justify-around">
                         {
@@ -38,8 +43,10 @@ const Calendar = ({ darkMode }) => {
                             })
                         }
                     </div>
-                    <CalendarDays currentDate={state.currentDate} events={events} />
+                    <CalendarDays currentDate={state.currentDate} events={events} darkMode={darkMode} />
                 </div>
+
+
             </div>
         </div>
     );

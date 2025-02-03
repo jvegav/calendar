@@ -15,9 +15,18 @@ body {
 body.dark {
   background-color: #1a202c; /* Tailwind's dark background color */
   color: #a0aec0; /* Tailwind's dark text color */
+  height: full;
+  width: full;
 }
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
+}
+
+root{
+  background-color: #1a202c; /* Tailwind's dark background color */
+  color: #a0aec0; /* Tailwind's dark text color */
+  height: full;
+  width: full;
 }
