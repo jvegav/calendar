@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import Calendar from './components/calendar';
+import CalendarWeek from './components/CalendarWeek';
 
 function App() {
   const [darkMode, setDarkMode] = useState(false);
@@ -9,7 +10,7 @@ function App() {
       <button onClick={() => setDarkMode(!darkMode)} className="m-4 p-2 border rounded">
         {darkMode ? 'Modo Claro' : 'Modo Oscuro'}
       </button>
-      <Calendar darkMode={darkMode} />
+      <CalendarWeek />
     </div>
   );
 }
