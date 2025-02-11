@@ -1,8 +1,13 @@
 import React, { useState } from 'react';
 import EventCalendar from './event';
+import EventOverlay from './event-overlay';
+import EventForm from './event-form';
 
 function CalendarDays({ currentDate, events, darkMode }) {
     const [selectedDay, setSelectedDay] = useState(null);
+    const [overlayColor, setOverlayColor] = useState('bg-green-500');
+    const [showForm, setShowForm] = useState(false);
+    const [dayEvents, setDayEvents] = useState(events);
 
     let firstDayOfMonth = new Date(currentDate.getFullYear(), currentDate.getMonth(), 1);
     let weekdayOfFirstDay = firstDayOfMonth.getDay();
@@ -30,6 +35,21 @@ function CalendarDays({ currentDate, events, darkMode }) {
         currentDays.push(calendarDay);
     }
 
+    const handleDayClick = (day) => {
+        setSelectedDay(day);
+        setShowForm(true);
+    };
+
+    const handleSaveEvent = (eventName, eventColor) => {
+        const dayKey = `${selectedDay.year}-${String(selectedDay.month + 1).padStart(2, '0')}-${String(selectedDay.number).padStart(2, '0')}`;
+        const newEvents = { ...dayEvents };
+        if (!newEvents[dayKey]) {
+            newEvents[dayKey] = [];
+        }
+        newEvents[dayKey].push({ name: eventName, color: eventColor });
+        setDayEvents(newEvents);
+    };
+
     return (
         <div className="grid grid-cols-7 w-full h-full">
             {
@@ -39,22 +59,20 @@ function CalendarDays({ currentDate, events, darkMode }) {
 
                     return (
                         <div key={index} className={"calendar-day cursor-pointer" + (day.currentMonth ? " current" : "") + (day.selected ? " selected" : "") + ` w-full h-16 relative border ${darkMode ? 'dark:bg-gray-800 text-white' : ''}`}
-                            onClick={() => {
-                                if (!selectedDay) {
-                                    setSelectedDay(day);
-                                }
-                            }}>
+                            onClick={() => handleDayClick(day)}>
                             <p className={"absolute right-2 " + (day.selected ? "text-red-600 font-bold" : "text-black") + `${darkMode ? 'dark:bg-gray-800 text-white' + (day.selected ? "text-red-600 font-bold" : "text-white") : ''}`}>{day.number}</p>
                             {
                                 dayEvents.map((event, index) => (
-                                    <p key={index} className='text-xs'>{event}</p>
+                                    <p key={index} className='text-xs'>{event.name}</p>
                                 ))
                             }
+                            {dayEvents.length > 0 && <EventOverlay events={dayEvents.map(event => event.name)} color={dayEvents[0].color} />}
+                            {selectedDay && selectedDay.date.getTime() === day.date.getTime() && <EventOverlay events={dayEvents.map(event => event.name)} color={overlayColor} />}
                         </div>
                     )
                 })
             }
-            {selectedDay && <EventCalendar day={selectedDay} events={events[selectedDay.date.toISOString().split('T')[0]] || []} />}
+            {showForm && <EventForm onSave={handleSaveEvent} onClose={() => setShowForm(false)} />}
         </div>
     )
 }

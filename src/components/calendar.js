@@ -11,8 +11,8 @@ const Calendar = ({ darkMode }) => {
     });
 
     const events = {
-        '2023-10-01': ['Event 1', 'Event 2'],
-        '2023-10-02': ['Event 3'],
+        '2025-02-02': ['Event 1', 'Event 2'],
+        '2025-02-03': ['Event 3'],
 
     };
 

@@ -10,7 +10,7 @@ function App() {
       <button onClick={() => setDarkMode(!darkMode)} className="m-4 p-2 border rounded">
         {darkMode ? 'Modo Claro' : 'Modo Oscuro'}
       </button>
-      <CalendarWeek />
+      <Calendar />
     </div>
   );
 }
